@@ -27,12 +27,6 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # Activate the new environment
 ENV PATH /opt/conda/envs/daengenv/bin:$PATH
 
-# Copy requirements.txt to the container
-COPY requirements.txt /tmp/requirements.txt
-
-# Install the packages in requirements.txt
-RUN /opt/conda/bin/conda run -n daengenv pip install -r /tmp/requirements.txt
-
 # Copy the default.style file needed for osm2pgsql
 COPY default.style /usr/bin/
 
