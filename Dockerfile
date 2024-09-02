@@ -19,10 +19,16 @@ RUN apt-get update && apt-get install -y \
 
 # Install Miniconda3 with Python 3.11
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
-    && /bin/bash /tmp/miniconda.sh -b -p /opt/miniconda3 \
+    && /bin/bash /tmp/miniconda.sh -b -p /opt/conda \
     && rm /tmp/miniconda.sh \
-    && /opt/miniconda3/bin/conda install -y python=3.11 \
-    && /opt/miniconda3/bin/conda clean -ya
+    && /opt/conda/bin/conda create -y -n daengenv python=3.11 \
+    && /opt/conda/bin/conda clean -ya
+
+# Activate the new environment
+ENV PATH /opt/conda/envs/daengenv/bin:$PATH
+
+# Activate the new environment
+ENV PATH /opt/miniconda3/envs/daengenv/bin:$PATH
 
 # Add Miniconda to the PATH
 ENV PATH /opt/miniconda3/bin:$PATH
