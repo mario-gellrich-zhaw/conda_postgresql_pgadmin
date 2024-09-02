@@ -33,12 +33,6 @@ COPY requirements.txt /tmp/requirements.txt
 # Install the packages in requirements.txt
 RUN /opt/conda/bin/conda run -n daengenv pip install -r /tmp/requirements.txt
 
-# Activate the new environment
-ENV PATH /opt/miniconda3/envs/daengenv/bin:$PATH
-
-# Add Miniconda to the PATH
-ENV PATH /opt/miniconda3/bin:$PATH
-
 # Copy the default.style file needed for osm2pgsql
 COPY default.style /usr/bin/
 
