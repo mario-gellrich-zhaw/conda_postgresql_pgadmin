@@ -1,5 +1,8 @@
 # Use the base PostGIS image
-FROM postgis/postgis
+FROM postgis/postgis:latest
+
+# Set environment variable to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Update and install dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,18 +17,21 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Anaconda3 with Python 3.11
-RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.03-Linux-x86_64.sh -O /tmp/anaconda.sh \
-    && /bin/bash /tmp/anaconda.sh -b -p /opt/anaconda3 \
-    && rm /tmp/anaconda.sh \
-    && /opt/anaconda3/bin/conda install -y python=3.11 \
-    && /opt/anaconda3/bin/conda clean -ya
+# Install Miniconda3 with Python 3.11
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
+    && /bin/bash /tmp/miniconda.sh -b -p /opt/miniconda3 \
+    && rm /tmp/miniconda.sh \
+    && /opt/miniconda3/bin/conda install -y python=3.11 \
+    && /opt/miniconda3/bin/conda clean -ya
 
-# Add Anaconda to the PATH
-ENV PATH /opt/anaconda3/bin:$PATH
+# Add Miniconda to the PATH
+ENV PATH /opt/miniconda3/bin:$PATH
 
 # Copy the default.style file needed for osm2pgsql
 COPY default.style /usr/bin/
 
 # Download the OpenStreetMap data
 RUN wget -O /tmp/switzerland-latest.osm.pbf http://download.geofabrik.de/europe/switzerland-latest.osm.pbf
+
+# Reset environment variable
+ENV DEBIAN_FRONTEND=dialog
