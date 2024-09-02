@@ -27,6 +27,12 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # Activate the new environment
 ENV PATH /opt/conda/envs/daengenv/bin:$PATH
 
+# Copy requirements.txt to the container
+COPY requirements.txt /tmp/requirements.txt
+
+# Install the packages in requirements.txt
+RUN /opt/conda/bin/conda run -n daengenv pip install -r /tmp/requirements.txt
+
 # Activate the new environment
 ENV PATH /opt/miniconda3/envs/daengenv/bin:$PATH
 
