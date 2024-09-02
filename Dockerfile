@@ -21,11 +21,7 @@ RUN apt-get update && apt-get install -y \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh \
     && /bin/bash /tmp/miniconda.sh -b -p /opt/conda \
     && rm /tmp/miniconda.sh \
-    && /opt/conda/bin/conda create -y -n daengenv python=3.11 \
     && /opt/conda/bin/conda clean -ya
-
-# Activate the new environment
-ENV PATH /opt/conda/envs/daengenv/bin:$PATH
 
 # Copy the default.style file needed for osm2pgsql
 COPY default.style /usr/bin/
